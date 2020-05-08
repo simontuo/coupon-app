@@ -17,9 +17,9 @@
                     :autoplay="false"
                     class="count-to"
                 />
-                <span>张，距下次更新还有</span>
+                <!-- <span>张，距下次更新还有</span>
                 <span class="time">{{countDownList}}</span>
-                <span>。</span>
+                <span>。</span>-->
                 <div class="close">
                     <a @click="show = false">
                         <svg-icon icon-class="close" class="icon" />
@@ -52,6 +52,9 @@ export default {
         };
     },
     computed: {
+        search() {
+            return this.$store.state.search;
+        },
         _startVal() {
             if (this.setStartVal) {
                 return this.setStartVal;
@@ -60,8 +63,8 @@ export default {
             }
         },
         _endVal() {
-            if (this.setEndVal) {
-                return this.setEndVal;
+            if (this.$store.state.search) {
+                return this.$store.state.search.total;
             } else {
                 return 0;
             }
