@@ -209,6 +209,10 @@ export default {
     background-color: #f2f6fc;
 }
 
+.el-input-number {
+    z-index: 0;
+}
+
 .info {
     margin: 20px 0;
     .green {
