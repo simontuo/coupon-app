@@ -1,29 +1,58 @@
 <template>
     <div class="container">
+        <el-alert title="所有金额为预估，可以根据自己理解自行修改，得出新的计算结果" type="warning" class="mt-2"></el-alert>
         <sticky :sticky-top="0" ref="sticky" class="info">
-            <el-card :body-style="{ padding: '20px 20px 5px 20px' }">
+            <el-card :body-style="{ padding: '20px 20px 5px 20px' }" shadow="hover">
                 <el-row :gutter="15">
-                    <el-col :span="8">
-                        <div class="block green">利润: {{ format(profits) }}</div>
+                    <el-col :md="8" :xs="24">
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            content="月利润，月营收 - 月成本"
+                            placement="top"
+                        >
+                            <div class="block green">月利润: {{ format(profits) }}</div>
+                        </el-tooltip>
                     </el-col>
-                    <el-col :span="8">
-                        <div class="block blue">营收: {{ format(revenue) }}</div>
+                    <el-col :md="8" :xs="24">
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            content="月营收，招生人数 x 课时单价 x 月课时"
+                            placement="top"
+                        >
+                            <div class="block blue">月营收: {{ format(revenue) }}</div>
+                        </el-tooltip>
                     </el-col>
-                    <el-col :span="8">
-                        <div
-                            class="block red"
-                        >成本: {{ format(cost) + ' (' + format(peopleCost) + ' + ' + format(monthlyCost) + ')'}}</div>
+                    <el-col :md="8" :xs="24">
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            content="月成本，月人员成本 + 月运作成本"
+                            placement="top"
+                        >
+                            <div
+                                class="block red"
+                            >月成本: {{ format(cost) + ' (' + format(peopleCost) + ' + ' + format(monthlyCost) + ')'}}</div>
+                        </el-tooltip>
                     </el-col>
-                    <el-col :span="8">
-                        <div class="block red">固定成本: {{ format(fixedCost) }}</div>
+                    <el-col :md="8" :xs="24">
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            content="固定成本，初期固定投入成本"
+                            placement="top"
+                        >
+                            <div class="block red">固定成本: {{ format(fixedCost) }}</div>
+                        </el-tooltip>
                     </el-col>
-                    <el-col :span="8">
+                    <el-col :md="8" :xs="24">
                         <div class="block blue">回本周期: {{ format(cycle) + ' 月' }}</div>
                     </el-col>
                 </el-row>
             </el-card>
         </sticky>
-        <el-card class="info">
+        <el-card class="info" shadow="hover">
             <el-form ref="form" label-width="120px" :inline="true" label-position="left">
                 <el-form-item label="招生人数">
                     <el-input-number
@@ -47,7 +76,8 @@
                         v-model="monthlyClassSize"
                         controls-position="right"
                         :min="4"
-                        :max="10"
+                        :max="16"
+                        @change="changeMonthlyClassSize"
                     ></el-input-number>
                 </el-form-item>
                 <el-form-item label="每班人数">
@@ -98,7 +128,7 @@ export default {
     },
     data() {
         return {
-            amount: 18,
+            amount: 28,
             classSize: 6,
             classUnitePrice: 300,
             monthlyClassSize: 4,
@@ -152,6 +182,12 @@ export default {
         changeSize() {
             this.$store.dispatch("budget/setClassSize", {
                 size: this.classSize
+            });
+            this.$refs.peopleCostsCard.refreshRowTotalAmount();
+        },
+        changeMonthlyClassSize() {
+            this.$store.dispatch("budget/setMonthlyClassSize", {
+                size: this.monthlyClassSize
             });
             this.$refs.peopleCostsCard.refreshRowTotalAmount();
         },

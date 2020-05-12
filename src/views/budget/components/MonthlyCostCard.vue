@@ -1,5 +1,5 @@
 <template>
-    <el-card class="costs" :body-style="{ padding: '0px' }">
+    <el-card class="costs" :body-style="{ padding: '0px' }" shadow="hover">
         <el-table
             :data="costItems"
             highlight-current-row
@@ -7,7 +7,24 @@
             show-summary
         >
             <el-table-column label="#" type="index" width="50" align="center"></el-table-column>
-            <el-table-column label="项目" prop="label" align="center"></el-table-column>
+            <el-table-column label="项目" align="center">
+                <template slot="header" slot-scope>
+                    <div class="customer-header clearfix">
+                        <span>项目</span>
+                        <a class="header-icon" @click="addRow">
+                            <svg-icon icon-class="add" slot="prepend" />
+                        </a>
+                    </div>
+                </template>
+                <template slot-scope="{row}">
+                    <el-input
+                        v-model="row.label"
+                        size="small"
+                        suffix-icon="el-icon-edit"
+                        @change="changeUnitPrice(row)"
+                    />
+                </template>
+            </el-table-column>
             <el-table-column label="数量" align="center">
                 <template slot-scope="{row}">
                     <el-input
@@ -18,7 +35,11 @@
                     />
                 </template>
             </el-table-column>
-            <el-table-column label="单位" width="80px" prop="unit" align="center"></el-table-column>
+            <el-table-column label="单位" align="center">
+                <template slot-scope="{row}">
+                    <el-input v-model="row.unit" size="small" suffix-icon="el-icon-edit" />
+                </template>
+            </el-table-column>
             <el-table-column min-width="300px" label="单价" align="center">
                 <template slot-scope="{row}">
                     <el-input
@@ -89,6 +110,15 @@ export default {
             this.$store.dispatch("budget/setMonthlyCost", {
                 totalAmount: this.getTotalCost()
             });
+        },
+        addRow() {
+            this.costItems.push({
+                label: "",
+                amount: 1,
+                unit: "",
+                unitPrice: 0,
+                totalAmount: 0
+            });
         }
     }
 };
@@ -97,6 +127,15 @@ export default {
 <style lang="scss" scoped>
 .costs {
     margin-bottom: 20px;
+}
+
+.customer-header {
+    .header-icon {
+        float: right;
+        line-height: 23px;
+        color: #909399;
+        margin-right: 10px;
+    }
 }
 
 .el-input >>> .el-input__inner {

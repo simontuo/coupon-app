@@ -1,12 +1,13 @@
 import Cookies from 'js-cookie'
 
 const state = {
-    amount: 18,
+    amount: 28,
     classSize: 6,
-    classAmount: 3,
+    classAmount: 5,
     peopleCost: 0,
     monthlyCost: 0,
     fixedCost: 0,
+    monthlyClassSize: 4
 }
 
 const mutations = {
@@ -17,6 +18,9 @@ const mutations = {
     SET_CLASS_SIZE(state, size) {
         state.classSize = size;
         state.classAmount = Math.ceil(state.amount / state.classSize)
+    },
+    SET_MONTHLY_CLASS_SIZE(state, size) {
+        state.monthlyClassSize = size;
     },
     SET_PROPLE_COST(state, totalAmount) {
         state.peopleCost = totalAmount
@@ -35,6 +39,9 @@ const actions = {
     },
     setClassSize({ commit }, { size }) {
         commit("SET_CLASS_SIZE", size)
+    },
+    setMonthlyClassSize({ commit }, { size }) {
+        commit("SET_MONTHLY_CLASS_SIZE", size)
     },
     setPeopleCost({ commit }, { totalAmount }) {
         commit("SET_PROPLE_COST", totalAmount)
