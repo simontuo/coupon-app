@@ -50,15 +50,21 @@ export const constantRoutes = [
         hidden: true
     },
 
-    {
-        path: '/',
-        component: () => import('@/views/index/index'),
-        hidden: true
-    },
+    // {
+    //     path: '/',
+    //     component: () => import('@/views/index/index'),
+    //     hidden: true
+    // },
 
     {
         path: '/import',
         component: () => import('@/views/import/index'),
+        hidden: true
+    },
+
+    {
+        path: '/',
+        component: () => import('@/views/budget/index'),
         hidden: true
     },
 

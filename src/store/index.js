@@ -8,7 +8,7 @@ import search from './modules/search'
 import permission from './modules/permission'
 import tagsView from './modules/tagsView'
 import pagination from './modules/pagination'
-
+import budget from './modules/budget'
 
 Vue.use(Vuex)
 
@@ -20,7 +20,8 @@ const store = new Vuex.Store({
         search,
         permission,
         tagsView,
-        pagination
+        pagination,
+        budget
     },
     getters
 })
